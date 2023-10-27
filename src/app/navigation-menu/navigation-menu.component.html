@@ -1,0 +1,25 @@
+<div class="menu-container">
+  <div class="option-group" [routerLink]="['/', 'productos']">
+    <span
+      class="material-icons-outlined icon"
+      [class.active]="active === 'productos'"
+    >
+      home
+    </span>
+    <span class="btn-title" [class.active]="active === 'productos'">
+      Productos
+    </span>
+  </div>
+
+  <div class="option-group" [routerLink]="['/', 'factura']">
+    <span
+      class="material-icons-outlined icon"
+      [class.active]="active === 'factura'"
+    >
+      calendar_month
+    </span>
+    <span class="btn-title" [class.active]="active === 'factura'">
+      factura
+    </span>
+  </div>
+</div>

@@ -1,1 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+@import "./app/core/sass/class-overriding";
+@import "./app/core/sass/index";
+
+:root,
+html {
+  font-size: 62.5%;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+* {
+  margin: 0;
+}
+
+.pointer {
+  cursor: pointer;
+}

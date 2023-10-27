@@ -1,0 +1,88 @@
+@import "src/app/core/sass/index";
+
+.component-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 5rem;
+
+  .welcome-title,
+  .welcome-subtitle {
+    color: $black;
+    text-align: center;
+  }
+
+  .welcome-title {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  .welcome-subtitle {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .user-input {
+      font-size: 1.4rem;
+      color: $gray-dark;
+      height: 6rem;
+      width: 28rem;
+
+      .input {
+        margin-top: 1rem;
+      }
+
+      .password-icon {
+        margin: 0.6rem;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .error-message {
+    color: $red;
+    font-size: 1.2rem;
+  }
+
+  .login-btn {
+    cursor: pointer;
+    color: $white;
+    border: none;
+    padding: 1rem;
+    border-radius: 2rem;
+    width: 28rem;
+    background-color: $blue-dark;
+
+    &:hover {
+      background-color: $blue-light;
+    }
+  }
+
+  .register a {
+    color: $blue-light;
+  }
+}
+
+@include desktop {
+  .component-wrapper {
+    .welcome-title {
+      font-size: 4rem;
+    }
+
+    .welcome-subtitle,
+    .btn {
+      font-size: 1.8rem;
+    }
+
+    .register {
+      font-size: 1.4rem;
+    }
+  }
+}

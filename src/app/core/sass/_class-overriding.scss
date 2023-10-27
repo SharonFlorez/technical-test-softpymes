@@ -1,0 +1,24 @@
+@import "src/app/core/sass/index";
+
+.mat-drawer-content {
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: $white;
+}
+
+mat-drawer .mat-drawer-inner-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: space-around;
+  overflow: hidden;
+}
+
+@include tablet {
+  .mat-drawer-content {
+    justify-content: flex-start;
+  }
+}
+
+@include desktop {
+}

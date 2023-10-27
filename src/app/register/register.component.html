@@ -1,0 +1,49 @@
+<div class="component-wrapper">
+  <h1 class="title">Crear cuenta</h1>
+  <form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field class="user-input" appearance="outline">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        class="input"
+        type="text"
+        formControlName="email"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field class="user-input" appearance="outline">
+      <mat-label>Contraseña</mat-label>
+      <section>
+        <input
+          matInput
+          class="input"
+          type="password"
+          formControlName="password"
+          required
+        />
+      </section>
+      <span matSuffix>
+        <span
+          *ngIf="!showPassword; else hidePassword"
+          class="material-icons-outlined password-icon"
+          (click)="togglePasswordVisibility()"
+        >
+          visibility
+        </span>
+        <ng-template #hidePassword>
+          <span
+            class="material-icons-outlined password-icon"
+            (click)="togglePasswordVisibility()"
+          >
+            visibility_off
+          </span>
+        </ng-template>
+      </span>
+    </mat-form-field>
+    <p class="error-message">{{ error }}</p>
+
+    <button mat-raised-button class="btn">Crear cuenta</button>
+  </form>
+  <p class="login">Ya tienes una cuenta? <a href="/">Inicia sesión</a></p>
+</div>

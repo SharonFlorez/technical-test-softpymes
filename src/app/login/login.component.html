@@ -1,0 +1,54 @@
+<div class="component-wrapper">
+  <section>
+    <h1 class="welcome-title">Bienvenid@ 😃</h1>
+    <p class="welcome-subtitle">Inicia sesión para ver los productos</p>
+  </section>
+  <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <mat-form-field class="user-input" appearance="outline">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        class="input"
+        type="text"
+        formControlName="email"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field class="user-input" appearance="outline">
+      <mat-label>Contraseña</mat-label>
+      <section>
+        <input
+          matInput
+          class="input"
+          type="password"
+          formControlName="password"
+          required
+        />
+      </section>
+      <span matSuffix>
+        <span
+          *ngIf="!showPassword; else hidePassword"
+          class="material-icons-outlined password-icon"
+          (click)="togglePasswordVisibility()"
+        >
+          visibility
+        </span>
+        <ng-template #hidePassword>
+          <span
+            class="material-icons-outlined password-icon"
+            (click)="togglePasswordVisibility()"
+          >
+            visibility_off
+          </span>
+        </ng-template>
+      </span>
+    </mat-form-field>
+    <p class="error-message">{{ error }}</p>
+
+    <button mat-raised-button class="btn login-btn">Ingresar</button>
+  </form>
+  <p class="register">
+    No tienes una cuenta? <a href="/register">Registrate</a>
+  </p>
+</div>

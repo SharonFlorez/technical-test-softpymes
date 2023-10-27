@@ -1,0 +1,27 @@
+<div class="global-wrapper">
+  <mat-drawer-container class="drawer-container">
+    <mat-drawer *ngIf="isLogin" class="drawer" mode="side" [opened]="true">
+      <app-navigation-menu
+        *ngIf="isLogin"
+        class="flex-column"
+        [active]="active"
+      ></app-navigation-menu>
+    </mat-drawer>
+
+    <mat-drawer-content
+      style="display: flex; height: 100vh"
+      [style.justify-content]="!isDesktop ? 'space-between' : 'normal'"
+      [style.marginLeft.rem]="!isDesktop ? 0 : isDesktop && !isLogin ? 0 : 11"
+    >
+      <app-header *ngIf="isLogin"></app-header>
+
+      <ng-content class="content-container"></ng-content>
+
+      <app-navigation-menu
+        *ngIf="!isDesktop && isLogin"
+        class="container"
+        [active]="active"
+      ></app-navigation-menu>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>
