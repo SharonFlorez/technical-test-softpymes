@@ -3,9 +3,8 @@ import {
   Firestore,
   collection,
   addDoc,
-  collectionData,
+  getDocs,
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
 import { Products } from 'src/app/core/interfaces/products.interface';
 
 @Injectable({
@@ -14,13 +13,29 @@ import { Products } from 'src/app/core/interfaces/products.interface';
 export class ProductsService {
   constructor(private firestore: Firestore) {}
 
-  addMood(mood: Products) {
-    const moodRef = collection(this.firestore, 'moods');
-    return addDoc(moodRef, mood);
+  addProduct(product: Products) {
+    const productRef = collection(this.firestore, 'products');
+    return addDoc(productRef, product);
   }
 
-  getMoods(): Observable<Products[]> {
-    const moodRef = collection(this.firestore, 'moods');
-    return collectionData(moodRef, { idField: 'id' }) as Observable<Products[]>;
+  async getProducts(): Promise<any> {
+    try {
+      const productRef = collection(this.firestore, 'products');
+      const allProducts = await getDocs(productRef);
+
+      const productsData = allProducts.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          code: data['code'],
+          name: data['name'],
+          amount: data['amount'],
+          price: data['price'],
+        } as Products;
+      });
+
+      return productsData;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

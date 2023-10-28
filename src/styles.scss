@@ -23,3 +23,18 @@ body {
 .pointer {
   cursor: pointer;
 }
+
+.dialog-style .mat-mdc-dialog-container {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 65rem;
+  height: auto;
+}
+
+@include desktop {
+  .dialog-style .mat-mdc-dialog-container {
+    top: 20%;
+    left: 25%;
+  }
+}
