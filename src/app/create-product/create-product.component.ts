@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { nanoid } from 'nanoid';
 import Swal from 'sweetalert2';
 
 import { ProductsService } from 'src/services/products.service';
