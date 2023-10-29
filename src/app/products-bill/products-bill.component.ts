@@ -1,28 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import jsPDF from 'jspdf';
 
-const PRODUCTS = [
-  {
-    code: 123,
-    name: 'Celular',
-    amount: 5,
-    price: 1000000,
-  },
-  {
-    code: 456,
-    name: 'Computador',
-    amount: 10,
-    price: 2000000,
-  },
-  {
-    code: 789,
-    name: 'Cámara',
-    amount: 15,
-    price: 500000,
-  },
-];
+import { ProductsWithQuantity } from '../core/interfaces';
+import { ProductsService } from 'src/services/products.service';
 
 @Component({
   selector: 'app-products-bill',
@@ -30,39 +11,105 @@ const PRODUCTS = [
   styleUrls: ['./products-bill.component.scss'],
 })
 export class ProductsBillComponent implements OnInit {
-  public productForm: FormGroup = new FormGroup({});
-  public displayedColumns: string[] = [
-    'number',
-    'code',
-    'name',
-    'amount',
-    'price',
-    'edit',
-  ];
-  public products = PRODUCTS;
-  public selectedMood = '';
-  public journalEntry = '';
-  public sentimentResult = '';
+  public products: ProductsWithQuantity[] = [];
+  public selectedProducts: ProductsWithQuantity[] = [];
+  public loading = true;
 
-  constructor(
-    private _formBuilder: FormBuilder,
-    private _router: Router,
-  ) {}
+  constructor(private _productsService: ProductsService) {}
 
   ngOnInit(): void {
-    this.productForm = this._formBuilder.group({
-      code: ['', Validators.required],
-      product: ['', Validators.required],
-      amount: ['', Validators.required],
-      price: ['', Validators.required],
+    this._productsService
+      .getProducts()
+      .then((data) => {
+        this.products = data;
+        this.loading = false;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  public addToInvoice(): void {
+    this.selectedProducts = this.products.filter(
+      (product) => product.quantityToSell > 0,
+    );
+  }
+
+  public removeItem(id: string): void {
+    this.selectedProducts = this.selectedProducts.filter(
+      (item) => item.id !== id,
+    );
+  }
+
+  public getTotalValue(): number {
+    return this.selectedProducts.reduce((total, product) => {
+      return total + product.price * product.quantityToSell;
+    }, 0);
+  }
+
+  public async createInvoice(): Promise<void> {
+    this.loading = true;
+    for (const product of this.selectedProducts) {
+      const newAmount = product.amount - product.quantityToSell;
+      if (newAmount >= 0) {
+        const success = await this._productsService.updateData(
+          product.id,
+          newAmount,
+        );
+        if (success) {
+          this.loading = false;
+          this._generatePDF();
+        } else {
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Error al generar la factura',
+            showConfirmButton: false,
+            timer: 2500,
+          });
+          this.loading = false;
+        }
+      } else {
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: `No hay suficiente cantidad disponible para el producto: ${product.name}`,
+          showConfirmButton: false,
+          timer: 2500,
+        });
+        this.loading = false;
+      }
+    }
+
+    this.selectedProducts = [];
+    this.products.forEach((product) => {
+      product.quantityToSell = 0;
     });
   }
 
-  public editProduct(): void {
-    alert('di click en edit');
-  }
+  private _generatePDF(): void {
+    const doc = new jsPDF();
 
-  public async onSave(): Promise<void> {
-    console.log(this.productForm.value);
+    doc.text('Factura', 10, 10);
+    doc.text('Productos seleccionados:', 10, 20);
+
+    for (let i = 0; i < this.selectedProducts.length; i++) {
+      const product = this.selectedProducts[i];
+      const yPos = 30 + i * 10;
+      doc.text(
+        `#: ${i + 1}, Código: ${product.code} Producto: ${
+          product.name
+        }, Cantidad: ${product.quantityToSell}, Vlr Unitario: ${product.price}`,
+        10,
+        yPos,
+      );
+    }
+
+    const totalYPos = 30 + this.selectedProducts.length * 10 + 10;
+    doc.text('Total:', 10, totalYPos);
+    const totalValue = this.getTotalValue();
+    doc.text(totalValue.toString(), 50, totalYPos);
+
+    doc.output('dataurlnewwindow');
   }
 }

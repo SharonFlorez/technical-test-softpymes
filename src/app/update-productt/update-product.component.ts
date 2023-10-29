@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 
 import { ProductsService } from 'src/services/products.service';
-import { Products, ProductsDialog } from '../core/interfaces';
+import { Products } from '../core/interfaces';
 
 @Component({
   selector: 'app-update-product',
@@ -18,7 +18,7 @@ export class UpdateProductComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<UpdateProductComponent>,
     private _productsService: ProductsService,
-    @Inject(MAT_DIALOG_DATA) public data: ProductsDialog,
+    @Inject(MAT_DIALOG_DATA) public data: Products,
   ) {}
 
   ngOnInit(): void {

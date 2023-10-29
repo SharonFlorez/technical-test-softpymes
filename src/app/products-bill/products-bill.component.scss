@@ -1,8 +1,9 @@
 @import "src/app/core/sass/index";
 
-.product-list-container {
+.product-bill-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 2rem;
   gap: 4rem;
 
@@ -16,57 +17,44 @@
     margin-bottom: 2rem;
   }
 
-  .form {
-    display: flex;
-    flex-direction: column;
-
-    .product-input {
-      font-size: 1.4rem;
-      height: 6rem;
-
-      .input {
-        margin-top: 1rem;
-      }
-    }
-  }
-
   .table {
-    background-color: #a4ddff;
     width: 100%;
     max-width: 40em;
+    border: 0.1rem solid #a4ddff;
+    border-radius: 0.5rem;
 
-    &-header,
-    &-body {
-      font-size: 1rem;
-      border-bottom: 0.1rem solid $white;
+    &-header th,
+    &-body td {
+      padding: 1rem 0.5rem;
     }
 
-    &-header {
+    &-header,
+    &-footer {
       font-weight: bold;
     }
 
-    &-header:not(:nth-child(3)),
-    &-body:not(:nth-child(3)) {
-      text-align: center;
+    &-header {
+      background-color: #a4ddff;
     }
 
-    &-body:last-child {
+    .price,
+    &-footer .total-value {
       text-align: end;
     }
 
-    .edit-icon {
+    .quantity {
+      text-align: center;
+    }
+
+    .delete-icon {
+      color: $red;
+      font-size: 1.8rem;
       cursor: pointer;
-      font-size: 1.2rem;
-      margin: 0;
     }
   }
 
-  .add-btn,
-  .icon {
-    color: $blue-dark;
-  }
-
   .add-btn {
+    color: $blue-dark;
     display: flex;
     align-items: center;
     background-color: $white;
@@ -74,36 +62,21 @@
     border-radius: 2rem;
     padding: 0.5rem 1rem;
     width: fit-content;
-    margin: auto;
+    margin: 2rem auto;
     gap: 1rem;
   }
 }
 
 @include tablet {
-  .product-list-container {
+  .product-bill-container {
     .title {
       font-size: 3rem;
-    }
-
-    .form {
-      flex-direction: row;
-      flex-wrap: wrap;
-      column-gap: 1rem;
-
-      .product-input {
-        flex-basis: calc(50% - 1rem);
-      }
-    }
-
-    .table-header,
-    .table-body {
-      font-size: 1.2rem;
     }
   }
 }
 
 @include desktop {
-  .product-list-container {
+  .product-bill-container {
     gap: 6rem;
 
     .title {
@@ -115,8 +88,13 @@
     }
 
     .table-header,
-    .table-body {
-      font-size: 1.4rem;
+    .table-body,
+    .table-footer {
+      font-size: 1.8rem;
+    }
+
+    .add-btn {
+      font-size: 1.8rem;
     }
   }
 }
