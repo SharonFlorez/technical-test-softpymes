@@ -1,27 +1,34 @@
-# TechnicalTestSoftpymes
+# App Gestión de invetario
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.6.
+### (Technical Test)
 
-## Development server
+La aplicación de gestión de inventario fue desarrollada utilizando Angular como framework principal y Firebase para la autenticación de usuarios y la base de datos Firestore. La aplicación es mobile-first y se enfoca en un diseño simple pero estético, con formularios de inicio de sesión y registro de usuarios, así como modales y animaciones para mejorar la experiencia del usuario.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Tecnologías Utilizadas
 
-## Code scaffolding
+- Angular: Se utiliza como framework principal para el desarrollo de la aplicación web.
+- Firebase: Firebase Authentication se utiliza para la autenticación de usuarios y Firestore como base de datos en tiempo real para almacenar información sobre productos, inventario y ventas.
+- Angular Material: Se ha integrado Angular Material para crear una interfaz de usuario moderna y consistente. Esto incluye componentes como botones, formularios, diálogos y más.
+- SweetAlert2: SweetAlert2 se ha incorporado para mejorar la experiencia del usuario al mostrar alertas y mensajes interactivos.
+- Angular Forms: Se emplea el módulo de formularios de Angular para la validación y gestión de datos en los formularios de autenticación y gestión de inventario.
+- Otras dependencias: Se han utilizado otras dependencias según las necesidades específicas del proyecto, como bibliotecas de animación o utilidades adicionales.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Decisiones de Diseño
 
-## Build
+- Mobile First: La aplicación se ha diseñado siguiendo el principio "mobile first", lo que garantiza una experiencia óptima en dispositivos móviles, pero también es totalmente funcional en pantallas más grandes.
+- Diseño Simple y Estético: A pesar de no utilizar un framework de diseño, se ha empleado CSS y SCSS puro para dar estilo a la página. El diseño se mantiene simple y estético para una experiencia de usuario intuitiva. Se utilizan colores y tipografía coherentes en todo el sitio.
+- Modales y Animaciones: Se han implementado modales para la creación, actualización y eliminación de productos, así como para la vista de factura. Además, se han añadido animaciones sutiles para mejorar la interacción del usuario.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Instrucciones de Configuración y Despliegue
 
-## Running unit tests
+1. Clonar el repositorio desde el repositorio en [https://github.com/SharonFlorez/technical-test-softpymes.git].
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+2. Asegurarse de tener Node.js y Angular CLI instalados en su sistema.
 
-## Running end-to-end tests
+3. Ejecutar el siguiente comando para instalar las dependencias del proyecto: `npm install`
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+4. Crear un proyecto en Firebase (si aún no lo ha hecho) y configure la autenticación con Firebase Authentication y la base de datos con Firestore.
 
-## Further help
+5. Copiar la configuración de Firebase (apiKey, authDomain, etc.) en el archivo `src/environments/environment.ts`.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+6. Ejecutar la aplicación en modo de desarrollo con el siguiente comando: `ng serve` o `npm run start`. La aplicación estará disponible en `http://localhost:4200/`.
