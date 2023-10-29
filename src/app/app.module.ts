@@ -20,7 +20,8 @@ import { HeaderComponent } from './header/header.component';
 import { RegisterComponent } from './register/register.component';
 import { ProductsBillComponent } from './products-bill/products-bill.component';
 import { LoadingComponent } from './loading/loading.component';
-import { CreateUpdateProductComponent } from './create-update-product/create-update-product.component';
+import { CreateProductComponent } from './create-product/create-product.component';
+import { UpdateProductComponent } from './update-productt/update-product.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { CreateUpdateProductComponent } from './create-update-product/create-upd
     HeaderComponent,
     RegisterComponent,
     LoadingComponent,
-    CreateUpdateProductComponent,
+    CreateProductComponent,
+    UpdateProductComponent,
   ],
   imports: [
     BrowserModule,

@@ -4,6 +4,8 @@ import {
   collection,
   addDoc,
   getDocs,
+  doc,
+  updateDoc,
 } from '@angular/fire/firestore';
 import { Products } from 'src/app/core/interfaces/products.interface';
 
@@ -26,6 +28,7 @@ export class ProductsService {
       const productsData = allProducts.docs.map((doc) => {
         const data = doc.data();
         return {
+          id: doc.id,
           code: data['code'],
           name: data['name'],
           amount: data['amount'],
@@ -36,6 +39,17 @@ export class ProductsService {
       return productsData;
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async updateData(id: string, newAmount: number): Promise<boolean> {
+    try {
+      const productDocRef = doc(this.firestore, 'products', id);
+      await updateDoc(productDocRef, { amount: newAmount });
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
     }
   }
 }

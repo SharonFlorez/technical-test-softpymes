@@ -1,65 +1,75 @@
 <div class="product-list-container">
   <h1 class="title">Productos</h1>
   <h2 class="subtitle">Listado de productos:</h2>
-  <app-loading *ngIf="loading; else productList"></app-loading>
-  <ng-template #productList>
-    <table mat-table class="table" [dataSource]="products">
-      <ng-container matColumnDef="number">
-        <th mat-header-cell *matHeaderCellDef class="table-header">N°</th>
-        <td
-          mat-cell
-          *matCellDef="let product; let i = index"
-          class="table-body"
-        >
-          {{ i + 1 }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="code">
-        <th mat-header-cell *matHeaderCellDef class="table-header">Código</th>
-        <td mat-cell *matCellDef="let product" class="table-body">
-          {{ product.code }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef class="table-header">Producto</th>
-        <td mat-cell *matCellDef="let product" class="table-body">
-          {{ product.name }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="amount">
-        <th mat-header-cell *matHeaderCellDef class="table-header">
-          Cantidad existente
-        </th>
-        <td mat-cell *matCellDef="let product" class="table-body">
-          {{ product.amount }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="price">
-        <th mat-header-cell *matHeaderCellDef class="table-header">
-          Precio (COP)
-        </th>
-        <td mat-cell *matCellDef="let product" class="table-body">
-          {{ product.price | number: "1.0-0" }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="edit">
-        <th mat-header-cell *matHeaderCellDef class="table-header"></th>
-        <td mat-cell *matCellDef="let product" class="table-body">
-          <span
-            class="material-icons-outlined edit-icon"
-            (click)="manageProduct('edit', product)"
+  <app-loading *ngIf="loading; else completeLoad"></app-loading>
+  <ng-template #completeLoad>
+    <h3
+      *ngIf="!products.length; else productList"
+      [style.text-align]="'center'"
+    >
+      No hay productos
+    </h3>
+    <ng-template #productList>
+      <table mat-table class="table" [dataSource]="products">
+        <ng-container matColumnDef="number">
+          <th mat-header-cell *matHeaderCellDef class="table-header">N°</th>
+          <td
+            mat-cell
+            *matCellDef="let product; let i = index"
+            class="table-body"
           >
-            edit
-          </span>
-        </td>
-      </ng-container>
+            {{ i + 1 }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef class="table-header">Código</th>
+          <td mat-cell *matCellDef="let product" class="table-body">
+            {{ product.code }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="table-header">
+            Producto
+          </th>
+          <td mat-cell *matCellDef="let product" class="table-body">
+            {{ product.name }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef class="table-header">
+            Cantidad existente
+          </th>
+          <td mat-cell *matCellDef="let product" class="table-body">
+            {{ product.amount }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef class="table-header">
+            Precio (COP)
+          </th>
+          <td mat-cell *matCellDef="let product" class="table-body">
+            {{ product.price | number: "1.0-0" }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="table-header"></th>
+          <td mat-cell *matCellDef="let product" class="table-body">
+            <span
+              class="material-icons-outlined edit-icon"
+              (click)="updateProduct(product)"
+            >
+              edit
+            </span>
+          </td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </ng-template>
   </ng-template>
 
-  <button class="add-btn pointer" (click)="manageProduct('create')">
+  <button class="add-btn pointer" (click)="createProduct()">
     Agregar producto nuevo
     <span class="material-icons-outlined icon"> add_circle_outline </span>
   </button>

@@ -1,0 +1,46 @@
+<div mat-dialog-content class="product-list-container">
+  <h2 class="subtitle">Editar producto:</h2>
+  <app-loading *ngIf="loading"></app-loading>
+  <div *ngIf="!loading" class="form">
+    <mat-form-field class="product-input" appearance="outline">
+      <mat-label>Código</mat-label>
+      <input
+        matInput
+        class="input"
+        type="number"
+        [value]="data.code"
+        disabled
+      />
+    </mat-form-field>
+    <mat-form-field class="product-input" appearance="outline">
+      <mat-label>Producto</mat-label>
+      <input matInput class="input" type="text" [value]="data.name" disabled />
+    </mat-form-field>
+    <mat-form-field class="product-input" appearance="outline">
+      <mat-label>Cantidad</mat-label>
+      <input
+        matInput
+        class="input"
+        type="number"
+        [value]="newAmount.value"
+        (input)="onAmountChange($event)"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field class="product-input" appearance="outline">
+      <mat-label>Precio</mat-label>
+      <input
+        matInput
+        class="input"
+        type="number"
+        [value]="data.price"
+        disabled
+      />
+    </mat-form-field>
+    <div class="btn-container">
+      <button class="btn cancel-btn" (click)="onCancel()">Cancelar</button>
+      <button class="btn add-btn" (click)="onSave()">Guardar</button>
+    </div>
+  </div>
+</div>

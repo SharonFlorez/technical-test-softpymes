@@ -4,9 +4,10 @@ import Swal from 'sweetalert2';
 
 import { ProductsService } from 'src/services/products.service';
 import { Products } from '../core/interfaces';
-import { CreateUpdateProductComponent } from '../create-update-product/create-update-product.component';
+import { CreateProductComponent } from '../create-product/create-product.component';
+import { UpdateProductComponent } from '../update-productt/update-product.component';
 
-const COLUMNS = ['number', 'code', 'name', 'amount', 'price', 'edit'];
+const COLUMNS = ['number', 'code', 'name', 'amount', 'price', 'actions'];
 
 @Component({
   selector: 'app-products-list',
@@ -35,12 +36,21 @@ export class ProductsListComponent implements OnInit {
       });
   }
 
-  public manageProduct(purpose: string, product?: Products): void {
-    this._dialog.open(CreateUpdateProductComponent, {
+  public createProduct(): void {
+    this._dialog.open(CreateProductComponent, {
+      panelClass: 'dialog-style',
+    });
+  }
+
+  public updateProduct(product: Products): void {
+    this._dialog.open(UpdateProductComponent, {
       panelClass: 'dialog-style',
       data: {
-        purpose,
-        product,
+        id: product.id,
+        code: product.code,
+        name: product.name,
+        amount: product.amount,
+        price: product.price,
       },
     });
   }
