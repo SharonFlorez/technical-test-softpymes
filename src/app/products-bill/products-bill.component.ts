@@ -1,32 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import jsPDF from 'jspdf';
 
 import { ProductsWithQuantity } from '../core/interfaces';
 import { ProductsService } from 'src/services/products.service';
+import { ModalService } from 'src/services/modal.service';
 
 @Component({
   selector: 'app-products-bill',
   templateUrl: './products-bill.component.html',
   styleUrls: ['./products-bill.component.scss'],
 })
-export class ProductsBillComponent implements OnInit {
+export class ProductsBillComponent implements OnInit, OnDestroy {
   public products: ProductsWithQuantity[] = [];
   public selectedProducts: ProductsWithQuantity[] = [];
   public loading = true;
+  private _modalClosedSubscription: Subscription;
 
-  constructor(private _productsService: ProductsService) {}
+  constructor(
+    private _productsService: ProductsService,
+    private modalService: ModalService,
+  ) {
+    this._modalClosedSubscription = this.modalService.modalClosed$.subscribe(
+      () => {
+        this._getProducts();
+      },
+    );
+  }
 
   ngOnInit(): void {
-    this._productsService
-      .getProducts()
-      .then((data) => {
-        this.products = data;
-        this.loading = false;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    this._getProducts();
+  }
+
+  ngOnDestroy(): void {
+    this._modalClosedSubscription.unsubscribe();
   }
 
   public addToInvoice(): void {
@@ -59,6 +67,7 @@ export class ProductsBillComponent implements OnInit {
         if (success) {
           this.loading = false;
           this._generatePDF();
+          this.modalService.closeModal();
         } else {
           Swal.fire({
             position: 'center',
@@ -85,6 +94,18 @@ export class ProductsBillComponent implements OnInit {
     this.products.forEach((product) => {
       product.quantityToSell = 0;
     });
+  }
+
+  private _getProducts(): void {
+    this._productsService
+      .getProducts()
+      .then((data) => {
+        this.products = data;
+        this.loading = false;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   private _generatePDF(): void {

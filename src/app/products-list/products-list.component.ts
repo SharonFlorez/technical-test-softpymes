@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 
 import { ProductsService } from 'src/services/products.service';
 import { Products } from '../core/interfaces';
 import { CreateProductComponent } from '../create-product/create-product.component';
 import { UpdateProductComponent } from '../update-productt/update-product.component';
+import { ModalService } from 'src/services/modal.service';
 
 const COLUMNS = ['number', 'code', 'name', 'amount', 'price', 'actions'];
 
@@ -14,26 +16,30 @@ const COLUMNS = ['number', 'code', 'name', 'amount', 'price', 'actions'];
   templateUrl: './products-list.component.html',
   styleUrls: ['./products-list.component.scss'],
 })
-export class ProductsListComponent implements OnInit {
+export class ProductsListComponent implements OnInit, OnDestroy {
   public displayedColumns = COLUMNS;
   public products: Products[] = [];
   public loading = true;
+  private _modalClosedSubscription: Subscription;
 
   constructor(
     private _productsService: ProductsService,
     private _dialog: MatDialog,
-  ) {}
+    private modalService: ModalService,
+  ) {
+    this._modalClosedSubscription = this.modalService.modalClosed$.subscribe(
+      () => {
+        this._getProducts();
+      },
+    );
+  }
 
   ngOnInit(): void {
-    this._productsService
-      .getProducts()
-      .then((data) => {
-        this.products = data;
-        this.loading = false;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    this._getProducts();
+  }
+
+  ngOnDestroy(): void {
+    this._modalClosedSubscription.unsubscribe();
   }
 
   public createProduct(): void {
@@ -65,6 +71,7 @@ export class ProductsListComponent implements OnInit {
         showConfirmButton: false,
         timer: 1500,
       });
+      this.modalService.closeModal();
     } else {
       Swal.fire({
         position: 'center',
@@ -74,5 +81,17 @@ export class ProductsListComponent implements OnInit {
         timer: 1500,
       });
     }
+  }
+
+  private _getProducts(): void {
+    this._productsService
+      .getProducts()
+      .then((data) => {
+        this.products = data;
+        this.loading = false;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 }

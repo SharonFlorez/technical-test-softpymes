@@ -22,6 +22,7 @@ import { ProductsBillComponent } from './products-bill/products-bill.component';
 import { LoadingComponent } from './loading/loading.component';
 import { CreateProductComponent } from './create-product/create-product.component';
 import { UpdateProductComponent } from './update-productt/update-product.component';
+import { ModalService } from 'src/services/modal.service';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,7 @@ import { UpdateProductComponent } from './update-productt/update-product.compone
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
   ],
-  providers: [],
+  providers: [ModalService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

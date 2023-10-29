@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 
 import { ProductsService } from 'src/services/products.service';
 import { Products } from '../core/interfaces';
+import { ModalService } from 'src/services/modal.service';
 
 @Component({
   selector: 'app-update-product',
@@ -19,6 +20,7 @@ export class UpdateProductComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<UpdateProductComponent>,
     private _productsService: ProductsService,
+    private modalService: ModalService,
     @Inject(MAT_DIALOG_DATA) public data: Products,
   ) {}
 
@@ -62,6 +64,7 @@ export class UpdateProductComponent implements OnInit {
         timer: 1500,
       });
       this.dialogRef.close();
+      this.modalService.closeModal();
     } else {
       this.loading = false;
       Swal.fire({

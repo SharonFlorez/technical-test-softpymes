@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 
 import { ProductsService } from 'src/services/products.service';
 import { Products } from '../core/interfaces';
+import { ModalService } from 'src/services/modal.service';
 
 @Component({
   selector: 'app-create-product',
@@ -22,6 +23,7 @@ export class CreateProductComponent implements OnInit {
     public dialogRef: MatDialogRef<CreateProductComponent>,
     private _productsService: ProductsService,
     private _formBuilder: FormBuilder,
+    private modalService: ModalService,
   ) {}
 
   ngOnInit(): void {
@@ -58,6 +60,7 @@ export class CreateProductComponent implements OnInit {
         timer: 1500,
       });
       this.dialogRef.close();
+      this.modalService.closeModal();
     } else {
       this.loading = false;
       Swal.fire({
