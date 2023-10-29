@@ -14,6 +14,7 @@ import { Products } from '../core/interfaces';
 export class UpdateProductComponent implements OnInit {
   public newAmount!: FormControl;
   public loading = false;
+  public error = false;
 
   constructor(
     public dialogRef: MatDialogRef<UpdateProductComponent>,
@@ -22,7 +23,10 @@ export class UpdateProductComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.newAmount = new FormControl(this.data.amount, Validators.required);
+    this.newAmount = new FormControl(this.data.amount, [
+      Validators.required,
+      Validators.min(1),
+    ]);
   }
 
   public onCancel(): void {
@@ -35,6 +39,11 @@ export class UpdateProductComponent implements OnInit {
   }
 
   public async onSave(): Promise<void> {
+    if (this.newAmount.invalid) {
+      this.error = true;
+      return;
+    }
+
     this.loading = true;
 
     const newAmount = this.newAmount.value;

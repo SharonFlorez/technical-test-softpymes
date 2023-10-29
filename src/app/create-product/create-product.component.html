@@ -9,9 +9,11 @@
         class="input"
         type="number"
         formControlName="code"
+        min="3"
         required
       />
     </mat-form-field>
+    <p *ngIf="error" class="error">El código debe tener mínimo 3 dígitos.</p>
     <mat-form-field class="product-input" appearance="outline">
       <mat-label>Producto</mat-label>
       <input
@@ -28,10 +30,12 @@
         matInput
         class="input"
         type="number"
+        min="1"
         formControlName="amount"
         required
       />
     </mat-form-field>
+    <p *ngIf="error" class="error">La cantidad mínima es 1.</p>
     <mat-form-field class="product-input" appearance="outline">
       <mat-label>Precio</mat-label>
       <input
@@ -42,6 +46,7 @@
         required
       />
     </mat-form-field>
+    <p *ngIf="error" class="error">Llena todos los campos obligatorios (*).</p>
     <div class="btn-container">
       <button class="btn cancel-btn" (click)="onCancel()">Cancelar</button>
       <button class="btn add-btn" (click)="onSave()">Guardar</button>

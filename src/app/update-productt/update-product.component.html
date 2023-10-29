@@ -22,12 +22,13 @@
         matInput
         class="input"
         type="number"
+        min="1"
         [value]="newAmount.value"
         (input)="onAmountChange($event)"
         required
       />
     </mat-form-field>
-
+    <p *ngIf="error" class="error">La cantidad mínima es 1.</p>
     <mat-form-field class="product-input" appearance="outline">
       <mat-label>Precio</mat-label>
       <input

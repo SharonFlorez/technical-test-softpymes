@@ -54,4 +54,25 @@ export class ProductsListComponent implements OnInit {
       },
     });
   }
+
+  public async deleteProduct(id: string): Promise<void> {
+    const response = await this._productsService.deleteProduct(id);
+    if (response) {
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Producto eliminado',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Error al eliminar el producto',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  }
 }

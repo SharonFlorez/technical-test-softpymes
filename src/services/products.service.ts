@@ -6,6 +6,7 @@ import {
   getDocs,
   doc,
   updateDoc,
+  deleteDoc,
 } from '@angular/fire/firestore';
 import { Products } from 'src/app/core/interfaces/products.interface';
 
@@ -15,9 +16,14 @@ import { Products } from 'src/app/core/interfaces/products.interface';
 export class ProductsService {
   constructor(private firestore: Firestore) {}
 
-  addProduct(product: Products) {
-    const productRef = collection(this.firestore, 'products');
-    return addDoc(productRef, product);
+  async addProduct(product: Products): Promise<any> {
+    try {
+      const productRef = collection(this.firestore, 'products');
+      const newProduct = await addDoc(productRef, product);
+      return newProduct;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async getProducts(): Promise<any> {
@@ -49,6 +55,17 @@ export class ProductsService {
       return true;
     } catch (error) {
       console.error(error);
+      return false;
+    }
+  }
+
+  async deleteProduct(id: string): Promise<boolean> {
+    try {
+      const productDocRef = doc(this.firestore, 'products', id);
+      await deleteDoc(productDocRef);
+      return true;
+    } catch (error) {
+      console.log(error);
       return false;
     }
   }

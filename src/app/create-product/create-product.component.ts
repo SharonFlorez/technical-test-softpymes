@@ -15,6 +15,7 @@ import { Products } from '../core/interfaces';
 export class CreateProductComponent implements OnInit {
   public productForm: FormGroup = new FormGroup({});
   public products: Products[] = [];
+  public error = false;
   public loading = false;
 
   constructor(
@@ -25,9 +26,9 @@ export class CreateProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.productForm = this._formBuilder.group({
-      code: ['', Validators.required],
+      code: ['', [Validators.required, Validators.min(3)]],
       name: ['', Validators.required],
-      amount: ['', Validators.required],
+      amount: [1, [Validators.required, Validators.min(1)]],
       price: ['', Validators.required],
     });
   }
@@ -37,8 +38,12 @@ export class CreateProductComponent implements OnInit {
   }
 
   public async onSave(): Promise<void> {
-    this.loading = true;
+    if (this.productForm.invalid) {
+      this.error = true;
+      return;
+    }
 
+    this.loading = true;
     const response = await this._productsService.addProduct(
       this.productForm.value,
     );

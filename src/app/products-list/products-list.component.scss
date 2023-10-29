@@ -49,10 +49,6 @@
       text-align: center;
     }
 
-    &-body:nth-child(5) {
-      text-align: end;
-    }
-
     .edit-icon,
     .delete-icon {
       cursor: pointer;
@@ -62,6 +58,10 @@
 
     .delete-icon {
       margin-top: 0.5rem;
+      color: $red;
+    }
+
+    .alert {
       color: $red;
     }
   }
@@ -103,6 +103,17 @@
     .table-header,
     .table-body {
       font-size: 1.2rem;
+    }
+
+    .table {
+      .edit-icon,
+      .delete-icon {
+        font-size: 1.8rem;
+      }
+
+      .delete-icon {
+        margin-left: 1rem;
+      }
     }
   }
 }
